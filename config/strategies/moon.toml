@@ -1,0 +1,6 @@
+emaBlue = 8
+emaGreen = 13
+emaYellow = 21
+emaRed = 55
+
+buyAtStart = true

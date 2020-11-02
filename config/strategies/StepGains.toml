@@ -1,0 +1,7 @@
+sellAtTarget = 1.015
+buyAtTarget = 0.975
+stopLoss = 1.03
+stopLossSellAt = 1.005
+toBuyAtStart = true
+
+jumper = false

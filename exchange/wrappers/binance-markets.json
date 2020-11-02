@@ -149,7 +149,8 @@
     "YOYO",
     "ZEC",
     "ZEN",
-    "ZIL"
+    "ZIL",
+    "DOGE"
   ],
   "currencies": [
     "BNB",
@@ -162,6 +163,16 @@
     "XRP"
   ],
   "markets": [
+    {
+	    "pair": [
+	      "BTC",
+	      "DOGE"
+	    ],
+	    "minimalOrder": {
+	      "amount": 0.0001,
+	      "unit": "asset"
+	    }
+	  },
     {
       "pair": [
         "BNB",

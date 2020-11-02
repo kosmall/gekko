@@ -72,7 +72,7 @@ class BaseOrder extends EventEmitter {
     this.status = states.FILLED;
     this.emitStatus();
     this.completed = true;
-    console.log(new Date, 'sticky filled')
+    console.log(new Date, ' sticky filled')
     this.finish(true);
   }
 
