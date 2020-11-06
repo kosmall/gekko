@@ -10,46 +10,43 @@ var prevRed = 0;
 
 strat.init = function() {
 	log.info('To the Moooooooon!');
+	this.requiredHistory = this.tradingAdvisor.historySize;
 	log.info('\n', this.settings);
 	toBuy = this.settings.buyAtStart;
-	this.addTulipIndicator('emaBlue', 'ema', {
+	this.addTulipIndicator('ovr__emaBlue', 'ema', {
 		optInTimePeriod: this.settings.emaBlue,
 	});
-	this.addTulipIndicator('emaGreen', 'ema', {
+	this.addTulipIndicator('ovr__emaGreen', 'ema', {
 		optInTimePeriod: this.settings.emaGreen,
 	});
-	this.addTulipIndicator('emaYellow', 'ema', {
+	this.addTulipIndicator('ovr__emaYellow', 'ema', {
 		optInTimePeriod: this.settings.emaYellow,
 	});
-	this.addTulipIndicator('emaRed', 'ema', {
+	this.addTulipIndicator('ovr__emaRed', 'ema', {
 		optInTimePeriod: this.settings.emaRed,
 	});
 }
 
-strat.compareWithPrevCandle = (blue,green,yellow,red) => {
-	if (blue <= 0 || green <= 0 || yellow <= 0 || red <= 0) {
-		console.log('indicator not ready');
-		console.log([blue,green,yellow,red]);
-		return false;
-	}
-	return blue > prevBlue && green > prevGreen && yellow > prevYellow && red > prevRed;
-}
 
 strat.check = function(candle) {
-  const emaBlue =  this.tulipIndicators.emaBlue.result.result;
-  const emaGreen = this.tulipIndicators.emaGreen.result.result;
-  const emaYellow = this.tulipIndicators.emaYellow.result.result;
-  const emaRed = this.tulipIndicators.emaRed.result.result;
-  if (toBuy && emaBlue > emaGreen && emaGreen > emaYellow && emaYellow > emaRed && strat.compareWithPrevCandle(emaBlue,emaGreen,emaYellow,emaRed)) {
+  const emaBlue =  this.tulipIndicators.ovr__emaBlue.result.result;
+  const emaGreen = this.tulipIndicators.ovr__emaGreen.result.result;
+  const emaYellow = this.tulipIndicators.ovr__emaYellow.result.result;
+  const emaRed = this.tulipIndicators.ovr__emaRed.result.result;
+  if (toBuy && emaBlue > emaGreen && emaGreen > emaYellow && emaYellow > emaRed) {
   	this.advice('long');
   	log.debug('\n', {candle});
   	log.debug('\n', {emaBlue, emaGreen, emaYellow, emaRed});
   	toBuy = !toBuy;
-  } else if(!toBuy && emaBlue < emaGreen){
+  } else if(!toBuy && (emaBlue <= emaGreen || emaGreen <= emaYellow || emaYellow <= emaRed)){
   	this.advice('short');
   	log.debug('\n', {candle});
   	log.debug('\n', {emaBlue, emaGreen, emaYellow, emaRed});
   	toBuy = !toBuy;
   }
+  prevBlue = emaBlue;
+  prevGreen = emaGreen;
+  prevYellow = emaYellow;
+  prevRed = emaRed;
 }
 module.exports = strat;

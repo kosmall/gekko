@@ -3,48 +3,48 @@ var log = require('../core/log.js');
 
 var strat = {};
 var toBuy = true;
+var prevBlue = 0;
+var prevGreen = 0;
+var prevYellow = 0;
+var prevRed = 0;
 
 strat.init = function() {
 	log.info('To the TALIB-Moooooooon!');
 	log.info('\n', this.settings);
 	// toBuy = this.settings.buyAtStart;
-	this.addTalibIndicator('emaBlue', 'ema', {
+	this.addTalibIndicator('ovr__emaBlue', 'ema', {
 		optInTimePeriod: this.settings.emaBlue,
 	});
-	this.addTalibIndicator('emaGreen', 'ema', {
+	this.addTalibIndicator('ovr__emaGreen', 'ema', {
 		optInTimePeriod: this.settings.emaGreen,
 	});
-	this.addTalibIndicator('emaYellow', 'ema', {
+	this.addTalibIndicator('ovr__emaYellow', 'ema', {
 		optInTimePeriod: this.settings.emaYellow,
 	});
-	this.addTalibIndicator('emaRed', 'ema', {
+	this.addTalibIndicator('ovr__emaRed', 'ema', {
 		optInTimePeriod: this.settings.emaRed,
 	});
 }
-strat.compareWithPrevCandle = (blue,green,yellow,red) => {
-	if (blue <= 0 || green <= 0 || yellow <= 0 || red <= 0) {
-		console.log('indicator not ready');
-		console.log([blue,green,yellow,red]);
-		return false;
-	}
-	return blue > prevBlue && green > prevGreen && yellow > prevYellow && red > prevRed;
-}
 
 strat.check = function(candle) {
-  const emaBlue =  this.talibIndicators.emaBlue.result.outReal;
-  const emaGreen = this.talibIndicators.emaGreen.result.outReal;
-  const emaYellow = this.talibIndicators.emaYellow.result.outReal;
-  const emaRed = this.talibIndicators.emaRed.result.outReal;
-  if (toBuy && emaBlue > emaGreen && emaGreen > emaYellow && emaYellow > emaRed && strat.compareWithPrevCandle) {
+  const emaBlue =  this.talibIndicators.ovr__emaBlue.result.outReal;
+  const emaGreen = this.talibIndicators.ovr__emaGreen.result.outReal;
+  const emaYellow = this.talibIndicators.ovr__emaYellow.result.outReal;
+  const emaRed = this.talibIndicators.ovr__emaRed.result.outReal;
+  if (toBuy && emaBlue > emaGreen && emaGreen > emaYellow && emaYellow > emaRed) {
   	this.advice('long');
   	log.debug('\n', {candle});
   	log.debug('\n', {emaBlue, emaGreen, emaYellow, emaRed});
   	toBuy = !toBuy;
-  } else if(!toBuy && emaBlue < emaGreen){
+  } else if(!toBuy && (emaBlue <= emaGreen || emaGreen <= emaYellow || emaYellow <= emaRed)){
   	this.advice('short');
   	log.debug('\n', {candle});
   	log.debug('\n', {emaBlue, emaGreen, emaYellow, emaRed});
   	toBuy = !toBuy;
   }
+  prevBlue = emaBlue;
+  prevGreen = emaGreen;
+  prevYellow = emaYellow;
+  prevRed = emaRed;
 }
 module.exports = strat;

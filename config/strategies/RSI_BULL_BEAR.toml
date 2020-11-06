@@ -4,14 +4,17 @@ SMA_short = 50
 
 # BULL
 BULL_RSI = 10
-BULL_RSI_high = 80
-BULL_RSI_low = 60
+BULL_RSI_high = 85
+BULL_RSI_low = 50
 
 # BEAR
 BEAR_RSI = 15
 BEAR_RSI_high = 50
-BEAR_RSI_low = 20
+BEAR_RSI_low = 25
 
 # BULL/BEAR is defined by the longer SMA trends
 # if SHORT over LONG = BULL
 # if SHORT under LONG = BEAR
+
+# BTC
+# 10 minutes / 800 candles 

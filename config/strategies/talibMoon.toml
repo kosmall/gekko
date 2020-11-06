@@ -1,6 +1,6 @@
 emaBlue = 8
 emaGreen = 13
 emaYellow = 21
-emaRed = 55
+emaRed = 55 //FOR 1H 34 
 
 buyAtStart = true

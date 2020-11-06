@@ -1,7 +1,12 @@
 sellAtTarget = 1.015
 buyAtTarget = 0.975
-stopLoss = 1.03
-stopLossSellAt = 1.005
+stopLoss = true
+
+ # if loss >= 5% then sell
+stopLossSellAt = 1.05
+
+ # set fallse to strat from sell asset
 toBuyAtStart = true
 
-jumper = false
+# if other than 0 then buy/sell @ fixedPrice (atStart)
+fixedDirectPrice = 0 
